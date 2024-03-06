@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+  <!-- Add Font Awesome CDN link -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <link th:href="@{/style.css}" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
+  <style>
+      /* CSS to hide spin buttons */
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+          -webkit-appearance: none;
+          margin: 0;
+      }
+      input[type="number"] {
+          -moz-appearance: textfield;
+      }
+  </style>
+
+
+</head>
+<body>
+
+
+<div class="col-md-12">
+  <nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" th:href="@{/user/index2}" >
+        <img th:src="@{/6736361.jpg}" style="max-height: 64px;">
+        Café Serenity
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/index2}">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" >My Account</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+              Our Products
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#">Plain Coffee</a></li>
+              <li><a class="dropdown-item" href="#">Fancy Coffee</a></li>
+              <li><a class="dropdown-item" href="#">Muffins</a></li>
+            </ul>
+          </li>
+        </ul>
+        <div class="ml-auto">
+          <a th:href="@{/user/logout}" class=" btn-coffee position-relative" style="text-decoration: none;" >
+            Logout
+          </a>
+
+          <a th:href="@{/user/cart}" class=" btn-coffee position-relative" style="text-decoration: none;" >
+            Cart
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill "  th:text="${totalQuantity}">
+            </span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+</div>
+
+<div class="container-fluid">
+  <div class="row d-flex justify-content-center">
+    <div class="col-sm-12">
+      <div class="card mx-auto">
+        <div th:if="${successMessage}" class="alert " role="alert">
+          <p th:text="${successMessage}"></p>
+        </div>
+        <p class="heading">PAYMENT DETAILS</p>
+        <form class="card-details" th:action="@{/user/deposit}" method="post">
+          <input type='hidden' name="user_id" th:value="${user.id}">
+          <input type='hidden' name="date" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}">
+          <div class="form-group mb-0" style="margin-bottom: 16px !important;">
+            <p class="text-warning mb-0">Amount to Load</p>
+            <input type="number" name="debit" id = "debit" size="17" style="-moz-appearance: textfield; -webkit-appearance: none; -ms-appearance: none; appearance: none;">
+          </div>
+
+          <div class="form-group mb-0">
+            <p class="text-warning mb-0">Card Number</p>
+            <input type="text" name="card_num" placeholder="1234 5678 9012 3457" size="17" id="cno">
+            <img th:src="@{/visa.png}" class="image1" width="64px" height="60px" />
+          </div>
+
+          <div class="form-group">
+            <p class="text-warning mb-0">Cardholder's Name</p> <input type="text" name="name" id="name" placeholder="Name" size="17">
+          </div>
+          <div class="form-group pt-2">
+            <div class="row d-flex">
+              <div class="col-sm-4">
+                <p class="text-warning mb-0">Expiration</p>
+                <input type="text" name="exp" placeholder="MM/YY" size="4" id="exp" >
+              </div>
+              <div class="col-sm-3">
+                <p class="text-warning mb-0">CVV</p>
+                <input type="password" name="cvv" id="cvv" placeholder="&#9679;&#9679;&#9679;" size="1" minlength="3" maxlength="3">
+              </div>
+              <div class="col-sm-5 pt-0">
+                <!-- Use Font Awesome icon here -->
+                <button type="submit" name = "submit" class="btn"><i class="fas fa-arrow-right px-3 py-2"></i></button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-4">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Our Products</h4>
+        <ul>
+          <li><a href="#">Plain Coffee</a></li>
+          <li><a href="#">Fancy Coffee</a></li>
+          <li><a href="#">Muffins</a></li>
+        </ul>
+      </div>
+      <div class="col-md-4">
+        <h4>Connect With Us</h4>
+        <ul>
+          <li><a href="#">Facebook</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col-md-12">
+        <p>&copy; 2024 Café Serenity. All rights reserved.</p>
+        <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
